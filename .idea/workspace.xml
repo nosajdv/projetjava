@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="V1">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bee_spritesheet.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/bee_spritesheetv2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/inputs/Clavier.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/inputs/Mouse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Game.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Panel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projetjava.iml" beforeDir="false" afterPath="$PROJECT_DIR$/projetjava.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bee.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Displayable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="V1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +43,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/test/Bureau/ProjetJavaL2/projetjava/res",
+    "last_opened_file_path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/main",
     "onboarding.tips.debug.path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -67,6 +53,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main" />
       <recent name="$PROJECT_DIR$/res" />
     </key>
   </component>
@@ -78,13 +65,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-21.0.1-openjdk-21.0.1-4caba194b151-e47b9c39" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -127,7 +107,23 @@
       <option name="project" value="LOCAL" />
       <updated>1711450635002</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="V1">
+      <option name="closed" value="true" />
+      <created>1711895131601</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711895131601</updated>
+    </task>
+    <task id="LOCAL-00006" summary="V1">
+      <option name="closed" value="true" />
+      <created>1713946404309</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713946404309</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

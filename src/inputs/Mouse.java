@@ -45,6 +45,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        //p.setRectPos(mouseEvent.getX(),mouseEvent.getY());
+       // p.setRectPos(mouseEvent.getX(),mouseEvent.getY());
     }
 }
