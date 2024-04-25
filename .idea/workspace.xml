@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="V2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Bee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Bee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Panel.java" afterDir="false" />
-    </list>
+    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="V3 (pas complet)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +139,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713946506410</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="V2">
+      <option name="closed" value="true" />
+      <created>1714052795883</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1714052795883</updated>
+    </task>
+    <task id="LOCAL-00010" summary="V3 (pas complet)">
+      <option name="closed" value="true" />
+      <created>1714053487394</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1714053487394</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -160,6 +172,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="V1" />
     <MESSAGE value="V2" />
-    <option name="LAST_COMMIT_MESSAGE" value="V2" />
+    <MESSAGE value="V3 (pas complet)" />
+    <option name="LAST_COMMIT_MESSAGE" value="V3 (pas complet)" />
   </component>
 </project>

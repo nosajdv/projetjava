@@ -23,12 +23,14 @@ public class Panel extends JPanel {
     private List<Bee> bees; // Liste des abeilles
     private List<SourceFood> foodSources;
 
+
  private inputs.Mouse souris;
     public Panel(){
          souris = new inputs.Mouse(this);
 
          importImg();
           bees = new ArrayList<>();
+        foodSources = SourceFood.generateRandomFoodSources(100, 1280, 600); // Générer 10 sources de nourriture
          initBees(15,10,5);
          setPanelSize();
          addKeyListener(new inputs.Clavier());
@@ -91,6 +93,7 @@ public class Panel extends JPanel {
     private void updateBees() {
         for (Bee bee : bees) {
             bee.move(); // Met à jour la position de chaque abeille
+            bee.explore(foodSources); // Fait explorer chaque abeille
         }
     }
 
@@ -128,6 +131,11 @@ public class Panel extends JPanel {
         }
     }
 
+    private void updateBeesPosition() {
+        for (Bee bee : bees) {
+            bee.move(); // Met à jour la position de chaque abeille
+        }
+    }
 
 
 
@@ -135,14 +143,19 @@ public class Panel extends JPanel {
         // permet de faire tout ce qui est nécéssaire avant de dessiner
         // empeche les bugs
         super.paintComponent(g);
-       // drawFood(g);
+        drawFood(g);
         subImg = img.getSubimage(0*26,0*32,26,32);
         for (Bee bee : bees) {
             bee.paint(g); // Dessine chaque abeille
+            // if (bee instanceof ScoutBee)
             g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
+
+            // if (bee instanceof ObserverBee)
+
+            // if (bee instanceof EmployeeBee)
         }
         updateBees(); // Met à jour la position des abeilles
-
+        updateBeesPosition();
 
        // updateRectangle();
     }

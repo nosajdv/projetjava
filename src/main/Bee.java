@@ -89,4 +89,6 @@ abstract class Bee extends JPanel {
         // Mettre à jour la position de l'abeille et redessiner
         setPos((int) posX, (int) posY);
     }
+
+
 }
