@@ -41,13 +41,21 @@ class SourceFood {
     // Méthode pour qu'une abeille explore la source de nourriture
     public void explore(Bee bee) {
         // Simuler l'évaluation de la qualité de la source par l'abeille
+        if(explorationCount>200){
+            bee.statut=0;
+            explorationCount=0;
+            return;
+        }
         Random random = new Random();
         int evaluation = quality + random.nextInt(3) - 1; // Ajoute ou soustrait une valeur aléatoire entre -1 et 1
         if (evaluation > 0) {
             updateQuality(evaluation); // Met à jour la qualité de la source
-            bee.setFoodSource(this); // L'abeille adopte cette source comme sa nouvelle source de nourriture
+            bee.statut=1;
+           // bee.setFoodSource(this); // L'abeille adopte cette source comme sa nouvelle source de nourriture
+            incrementExplorationCount();
         }
-        incrementExplorationCount(); // Incrémente le compteur d'essais de la source
+         // Incrémente le compteur d'essais de la source
+
     }
 
     // Méthode statique pour générer plusieurs instances de SourceFood à des positions aléatoires

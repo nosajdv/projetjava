@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="V3 (pas complet)" />
+    <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Bee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Bee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Panel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/SourceFood.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/SourceFood.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/TypeBee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TypeBee.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,23 +40,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Run.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;21&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/test/Bureau/ProjetJavaL2/projetjava/src/main&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/test/Bureau/ProjetJavaL2/projetjava/src/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.Run.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/main",
+    "onboarding.tips.debug.path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "Errors"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main" />
@@ -155,7 +161,39 @@
       <option name="project" value="LOCAL" />
       <updated>1714053487394</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="V3 (pas complet)">
+      <option name="closed" value="true" />
+      <created>1714053824140</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714053824140</updated>
+    </task>
+    <task id="LOCAL-00012" summary="V3 (pas complet)">
+      <option name="closed" value="true" />
+      <created>1714053845600</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1714053845600</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <option name="closed" value="true" />
+      <created>1714053960385</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1714053960385</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <option name="closed" value="true" />
+      <created>1714053989173</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1714053989173</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +211,7 @@
     <MESSAGE value="V1" />
     <MESSAGE value="V2" />
     <MESSAGE value="V3 (pas complet)" />
-    <option name="LAST_COMMIT_MESSAGE" value="V3 (pas complet)" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java" />
   </component>
 </project>

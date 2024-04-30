@@ -11,6 +11,10 @@ abstract class Bee extends JPanel {
     public int posX; // Position X de l'abeille sur le plateau
     protected int posY; // Position Y de l'abeille sur le plateau
     protected float posDX = 2.5f, posDY = 2.5f;
+    public int statut;
+    private long foodFoundTime = 0; // Stocke le temps où l'abeille a trouvé de la nourriture
+    private static final long STOP_TIME = 3000; // Durée pendant laquelle l'abeille s'arrête (en millisecondes)
+    private long immobilizeStartTime = 0;
 
     public Bee(String type, int posX, int posY) {
         this.type = type;
@@ -20,14 +24,6 @@ abstract class Bee extends JPanel {
 
     public String getType() {
         return type;
-    }
-
-    public SourceFood getFoodSource() {
-        return foodSource;
-    }
-
-    public void setFoodSource(SourceFood foodSource) {
-        this.foodSource = foodSource;
     }
 
     public int getPosX() {
@@ -42,6 +38,12 @@ abstract class Bee extends JPanel {
         this.posX += val;
 
     }
+    public double calculateDistance(int targetX, int targetY) {
+        double dx = this.posX - targetX;
+        double dy = this.posY - targetY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
 
     public void changePosy(int val) {
         this.posY += val;
@@ -55,6 +57,11 @@ abstract class Bee extends JPanel {
     }
 
     protected void updateBee() {
+        if (statut == 1) {
+            return;
+        }
+
+
         // Générer des valeurs aléatoires pour le déplacement
         Random random = new Random();
         float randomDX = (random.nextFloat() - 0.5f) * 2; // Valeur aléatoire entre -1 et 1
@@ -73,22 +80,29 @@ abstract class Bee extends JPanel {
 
 
     // Méthode abstraite pour que l'abeille explore une source de nourriture
-    public abstract void explore(List<SourceFood> foodSources);
+  //  public abstract void explore(List<SourceFood> foodSources);
 
+    /*
     // Méthode pour choisir aléatoirement une source de nourriture
+    protected void chooseRandomFoodSource(List<SourceFood> foodSources) {
+        Random random = new Random();
+        int index = random.nextInt(foodSources.size());
+        this.foodSources = foodSources.get(index);
+    }
+     */
+
+
+    // Méthode pour simuler le déplacement de l'abeille
+    public void move() {
+            updateBee();
+        // Mettre à jour la position de l'abeille et redessiner
+        setPos((int) posX, (int) posY);
+    }
+// Méthode pour choisir aléatoirement une source de nourriture
     protected void chooseRandomFoodSource(List<SourceFood> foodSources) {
         Random random = new Random();
         int index = random.nextInt(foodSources.size());
         this.foodSource = foodSources.get(index);
     }
-
-
-    // Méthode pour simuler le déplacement de l'abeille
-    public void move() {
-        updateBee();
-        // Mettre à jour la position de l'abeille et redessiner
-        setPos((int) posX, (int) posY);
-    }
-
 
 }
