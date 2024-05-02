@@ -1,9 +1,10 @@
 package main;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.awt.*;
 import javax.swing.JPanel;
+
 
 abstract class Bee extends JPanel {
     protected String type; // Type de l'abeille (éclaireuse, employée, observatrice)
@@ -12,15 +13,22 @@ abstract class Bee extends JPanel {
     protected int posY; // Position Y de l'abeille sur le plateau
     protected float posDX = 2.5f, posDY = 2.5f;
     public int statut;
-    private long foodFoundTime = 0; // Stocke le temps où l'abeille a trouvé de la nourriture
-    private static final long STOP_TIME = 3000; // Durée pendant laquelle l'abeille s'arrête (en millisecondes)
-    private long immobilizeStartTime = 0;
+    protected long lastExplorationTime; // Temps de la dernière exploration
+    protected long currentTime; // Temps actuel du système
+    protected long explorationStartTime; // Temps de début de l'exploration
+    protected List<SourceFood> visitedSources = new ArrayList<>();
+
+    public void addVisitedSource(SourceFood source) {
+        visitedSources.add(source);
+    }
 
     public Bee(String type, int posX, int posY) {
         this.type = type;
         this.posX = posX;
         this.posY = posY;
     }
+
+
 
     public String getType() {
         return type;
@@ -36,8 +44,8 @@ abstract class Bee extends JPanel {
 
     public void changePosx(int val) {
         this.posX += val;
-
     }
+
     public double calculateDistance(int targetX, int targetY) {
         double dx = this.posX - targetX;
         double dy = this.posY - targetY;
@@ -56,12 +64,26 @@ abstract class Bee extends JPanel {
 
     }
 
+    // Méthode pour démarrer l'exploration d'une source de nourriture
+    public void startExploration() {
+        explorationStartTime = System.currentTimeMillis();
+    }
+
+    // Méthode pour mettre à jour le mouvement de l'abeille
     protected void updateBee() {
-        if (statut == 1) {
-            return;
+        for (SourceFood source : visitedSources) {
+            long test =System.currentTimeMillis() - source.lastExplorationTime;
+            //System.out.println(test);
+            if(test<1000){
+                return;
+            }
         }
 
+        if (statut == 1) {
+                return;
+        }
 
+        // Si l'abeille n'est pas en exploration ou si moins de 10 secondes se sont écoulées, continuez le mouvement
         // Générer des valeurs aléatoires pour le déplacement
         Random random = new Random();
         float randomDX = (random.nextFloat() - 0.5f) * 2; // Valeur aléatoire entre -1 et 1
@@ -76,20 +98,10 @@ abstract class Bee extends JPanel {
             posDX *= -1;
         if (posY > 600 || posY < 0)
             posDY *= -1;
+
+
+
     }
-
-
-    // Méthode abstraite pour que l'abeille explore une source de nourriture
-  //  public abstract void explore(List<SourceFood> foodSources);
-
-    /*
-    // Méthode pour choisir aléatoirement une source de nourriture
-    protected void chooseRandomFoodSource(List<SourceFood> foodSources) {
-        Random random = new Random();
-        int index = random.nextInt(foodSources.size());
-        this.foodSources = foodSources.get(index);
-    }
-     */
 
 
     // Méthode pour simuler le déplacement de l'abeille
@@ -97,12 +109,6 @@ abstract class Bee extends JPanel {
             updateBee();
         // Mettre à jour la position de l'abeille et redessiner
         setPos((int) posX, (int) posY);
-    }
-// Méthode pour choisir aléatoirement une source de nourriture
-    protected void chooseRandomFoodSource(List<SourceFood> foodSources) {
-        Random random = new Random();
-        int index = random.nextInt(foodSources.size());
-        this.foodSource = foodSources.get(index);
     }
 
 }

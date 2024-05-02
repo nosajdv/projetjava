@@ -14,26 +14,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Panel extends JPanel {
-    private float depX=0,depY=0;
-    private float depDX=2.5f,depDY=2.5f;
-    private int fps=0;
-    private long lastCheck =0;
     private BufferedImage img,subImg;
-     Random random;
+    Random random;
     private List<Bee> bees; // Liste des abeilles
     private List<SourceFood> foodSource;
     private BufferedImage[] img2;
     private BufferedImage backgroundImage; // Image de fond vert
+    private inputs.Mouse souris;
+    String qualityText;
+    String statutText;
+    private BufferedImage rucheImage;
 
-
- private inputs.Mouse souris;
+    private void importRucheImage() {
+        try {
+            InputStream is = getClass().getResourceAsStream("/Ruche.png");
+            rucheImage = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public Panel(){
          souris = new inputs.Mouse(this);
-        importBackgroundImage();
+         importBackgroundImage();
          importImg();
          importFleur();
-          bees = new ArrayList<>();
-         foodSource = SourceFood.generateRandomFoodSources(75, 1280, 600); // Générer 10 sources de nourriture
+         bees = new ArrayList<>();
+         foodSource = SourceFood.generateRandomFoodSources(20, 1280, 600); // Générer 10 sources de nourriture
          initBees(15,10,5);
          setPanelSize();
          addKeyListener(new inputs.Clavier());
@@ -49,8 +55,6 @@ public class Panel extends JPanel {
             e.printStackTrace();
         }
     }
-
-
 
     private void importImg(){
         InputStream is = getClass().getResourceAsStream("/bee_spritesheetv2.png");
@@ -100,7 +104,7 @@ public class Panel extends JPanel {
             bee.move();
             for (SourceFood food : foodSource){
                 double distance = bee.calculateDistance(food.getPosX(), food.getPosY());
-                if (distance<10) {
+                if (distance<15) {
                     food.explore(bee); // Explore la source de nourriture uniquement si l'abeille est exactement à la même position
                     break; // Sortir de la boucle dès qu'une source de nourriture est explorée
                 }
@@ -146,13 +150,28 @@ public class Panel extends JPanel {
         // permet de faire tout ce qui est nécéssaire avant de dessiner
         // empeche les bugs
         super.paintComponent(g);
+        // Dessiner l'image de la ruche à la position (0, 0)
+
+
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         for (SourceFood foodSource : foodSource) {
             int foodX = foodSource.getPosX(); // Récupérer la position X de la source de nourriture
             int foodY = foodSource.getPosY(); // Récupérer la position Y de la source de nourriture
             int flowerIndex = determineFlowerIndex(foodX, foodY); // Déterminer l'index de la fleur en fonction de sa position
             g.drawImage(img2[flowerIndex], foodX, foodY, null); // Dessiner la fleur avec son sprite spécifique
+            //Affichage de la qualité
+            if(foodSource.getQuality()!=1) {
+                 qualityText = "Qualité: " + foodSource.getQuality();
+            }else{
+                 qualityText = "Morte";
+            }
+            g.setColor(Color.BLACK);
+            g.drawString(qualityText, foodX, foodY - 10); // Afficher la qualité au-dessus de la source de nourriture
+            statutText = "Statut: " + foodSource.getStatut();
+            g.drawString(statutText, foodX, foodY - 20); // Afficher le statut au-dessus de la qualité
         }
+
+        g.drawImage(rucheImage, 0, 0, null);
 
         subImg = img.getSubimage(0*26,0*32,26,32);
         for (Bee bee : bees) {
