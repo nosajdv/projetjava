@@ -35,11 +35,12 @@ public class Panel extends JPanel {
     }
     public Panel(){
          souris = new inputs.Mouse(this);
-         importBackgroundImage();
+        importRucheImage();
+        importBackgroundImage();
          importImg();
          importFleur();
          bees = new ArrayList<>();
-         foodSource = SourceFood.generateRandomFoodSources(20, 1280, 600); // Générer 10 sources de nourriture
+         foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
          initBees(15,10,5);
          setPanelSize();
          addKeyListener(new inputs.Clavier());
@@ -101,16 +102,19 @@ public class Panel extends JPanel {
         long currentTime = System.currentTimeMillis();
 
         for (Bee bee : bees) {
-            bee.move();
-            for (SourceFood food : foodSource){
-                double distance = bee.calculateDistance(food.getPosX(), food.getPosY());
-                if (distance<15) {
-                    food.explore(bee); // Explore la source de nourriture uniquement si l'abeille est exactement à la même position
-                    break; // Sortir de la boucle dès qu'une source de nourriture est explorée
+            if (bee.statut == 3) {
+                bee.moveToRuche();
+            } else {
+
+                bee.move();
+                for (SourceFood food : foodSource) {
+                    double distance = bee.calculateDistance(food.getPosX(), food.getPosY());
+                    if (distance < 15) {
+                        food.explore(bee); // Explore la source de nourriture uniquement si l'abeille est exactement à la même position
+                        break; // Sortir de la boucle dès qu'une source de nourriture est explorée
+                    }
                 }
-
             }
-
         }
     }
     private void initBees(int nbS, int nbE, int nbO) {
@@ -121,6 +125,7 @@ public class Panel extends JPanel {
         for (int i = 0; i < nbS; i++) {
             ScoutBee scoutBee = new ScoutBee(a, b);
             bees.add(scoutBee);
+            BeeManager.addBee(scoutBee);
             a=a-10;
             b=b-10;
         }

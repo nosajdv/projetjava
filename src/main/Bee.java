@@ -12,7 +12,7 @@ abstract class Bee extends JPanel {
     public int posX; // Position X de l'abeille sur le plateau
     protected int posY; // Position Y de l'abeille sur le plateau
     protected float posDX = 2.5f, posDY = 2.5f;
-    public int statut;
+    public int statut=0;
     protected long lastExplorationTime; // Temps de la dernière exploration
     protected long currentTime; // Temps actuel du système
     protected long explorationStartTime; // Temps de début de l'exploration
@@ -27,6 +27,7 @@ abstract class Bee extends JPanel {
         this.posX = posX;
         this.posY = posY;
     }
+
 
 
 
@@ -63,6 +64,21 @@ abstract class Bee extends JPanel {
         this.posY = y;
 
     }
+    // Méthode pour déplacer l'éclaireuse vers la ruche
+    public void moveToRuche() {
+        // Calculer les différences entre les coordonnées actuelles et la position (0, 0)
+        int dx = 130 - posX;
+        int dy = 200 - posY;
+
+        // Déplacer l'abeille progressivement vers la position (0, 0)
+        if (dx != 130) {
+            posX += Math.signum(dx); // Ajouter ou soustraire 1 à la position X en fonction de la direction
+        }
+        if (dy != 200) {
+            posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
+        }
+    }
+
 
     // Méthode pour démarrer l'exploration d'une source de nourriture
     public void startExploration() {
@@ -74,10 +90,11 @@ abstract class Bee extends JPanel {
         for (SourceFood source : visitedSources) {
             long test =System.currentTimeMillis() - source.lastExplorationTime;
             //System.out.println(test);
-            if(test<1000){
+            if(test<2000){
                 return;
             }
         }
+
 
         if (statut == 1) {
                 return;
