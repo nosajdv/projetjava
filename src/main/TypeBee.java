@@ -12,7 +12,7 @@ class ScoutBee extends Bee {
     }
     // Méthode pour déplacer l'éclaireuse sur le plateau
     public void move() {
-       // super.move();
+       super.move();
     }
     // Méthode pour déplacer l'éclaireuse vers la ruche
     public void moveToRuche() {
@@ -37,20 +37,27 @@ class EmployeeBee extends Bee {
     public EmployeeBee(int posX, int posY) {
         super("Employée", posX, posY);
     }
-
-
-    public void deplace(List<SourceFood> foodSources) {
-        if (foodSource != null) {
-            // Logique pour évaluer la qualité de la source
-            if (foodSource.getQuality() < 50) {
-                System.out.println("Mauvaise qualité, recherche d'une autre source.");
-                deplace(foodSources); // Réévaluation de la source
-            } else {
-                System.out.println("Bonne qualité de la source.");
-            }
-        }
+    public int getPosXMax(){
+        return posXMax;
     }
 
+    public int getPosYMax(){
+        return posYMax;
+    }
+
+    public void moveToRuche() {
+        // Calculer les différences entre les coordonnées actuelles et la position (0, 0)
+        int dx = 100 - posX;
+        int dy = 120 - posY;
+
+        // Déplacer l'abeille progressivement vers la position (0, 0)
+        if (dx != 100) {
+            posX += Math.signum(dx); // Ajouter ou soustraire 1 à la position X en fonction de la direction
+        }
+        if (dy != 120) {
+            posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
+        }
+    }
 
 
     // Méthode pour déplacer l'employée sur le plateau
@@ -64,8 +71,78 @@ class ObserverBee extends Bee {
 
     public ObserverBee(int posX, int posY) {
         super("Observatrice", posX, posY);
-        previousQuality = Integer.MIN_VALUE; // Initialiser à une valeur non valide
+        statut = 3;
     }
+
+    public void moveToRuche() {
+        // Calculer les différences entre les coordonnées actuelles et la position (0, 0)
+        int dx = 100 - posX;
+        int dy = 120 - posY;
+
+        // Déplacer l'abeille progressivement vers la position (0, 0)
+        if (dx != 100) {
+            posX += Math.signum(dx); // Ajouter ou soustraire 1 à la position X en fonction de la direction
+        }
+        if (dy != 120) {
+            posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
+        }
+    }
+
+    public int getPosXMax() {
+        return posXMax;
+    }
+
+    public int getPosYMax() {
+        return posYMax;
+    }
+
+
+    public void observe(List<EmployeeBee> employees) {
+        boolean allEmployeesCollected = true; // Initialiser à true
+
+        // Vérifie si toutes les employées ont un statut de 3
+        for (EmployeeBee employee : employees) {
+            if (employee.statut != 3) { // Si au moins une employée n'est pas rentrée
+                allEmployeesCollected = false; // Mettre à false
+                break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
+            }
+        }
+
+        if (allEmployeesCollected) {
+            // Une fois que toutes les employées ont terminé la collecte, les observatrices se déplacent
+            for (EmployeeBee employee : employees) {
+                // Les observatrices se dirigent vers les positions posXMax et posYMax de chaque employée
+                moveTo(employee.getPosXMax(), employee.getPosYMax());
+            }
+            statut = 0; // Mettre à jour le statut de l'observatrice à 0
+        }
+    }
+
+    public void moveTo(int targetX, int targetY) {
+        int dx = targetX - posX;
+        int dy = targetY - posY;
+
+        // Calcul de la distance entre la position actuelle et la position cible
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        // Vérification si l'abeille est déjà à la position cible
+        if (distance <= 1.0) {
+            return; // Pas besoin de déplacer l'abeille car elle est déjà à la position cible
+        }
+
+        // Calcul de la quantité à déplacer selon la vitesse de l'abeille
+        double speed = 1.0; // Vitesse de déplacement de l'abeille
+        double amountToMoveX = (dx / distance) * speed;
+        double amountToMoveY = (dy / distance) * speed;
+
+        // Mise à jour de la position de l'abeille
+        posX += amountToMoveX;
+        posY += amountToMoveY;
+    }
+
+
+
+
 
 
     public void deplace(List<SourceFood> foodSources) {
@@ -83,7 +160,7 @@ class ObserverBee extends Bee {
 
     // Méthode pour déplacer l'observatrice sur le plateau
     public void move() {
-        //super.move();
+        super.move();
     }
 }
 

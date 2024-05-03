@@ -35,8 +35,8 @@ public class Panel extends JPanel {
     }
     public Panel(){
          souris = new inputs.Mouse(this);
-        importRucheImage();
-        importBackgroundImage();
+         importRucheImage();
+         importBackgroundImage();
          importImg();
          importFleur();
          bees = new ArrayList<>();
@@ -85,6 +85,7 @@ public class Panel extends JPanel {
             e.printStackTrace();
         }
     }
+
     private BufferedImage getRandomFlowerImage() {
         Random random = new Random();
         int index = random.nextInt(img2.length);
@@ -102,21 +103,22 @@ public class Panel extends JPanel {
         long currentTime = System.currentTimeMillis();
 
         for (Bee bee : bees) {
+
             if (bee.statut == 3) {
                 bee.moveToRuche();
-            } else {
-
+            }else{
+                if (bee instanceof ObserverBee) {
+                    ((ObserverBee) bee).observe(BeeManager.getAllEmployeeBees());
+                }
                 bee.move();
                 for (SourceFood food : foodSource) {
-                    double distance = bee.calculateDistance(food.getPosX(), food.getPosY());
-                    if (distance < 15) {
-                        food.explore(bee); // Explore la source de nourriture uniquement si l'abeille est exactement à la même position
-                        break; // Sortir de la boucle dès qu'une source de nourriture est explorée
-                    }
+                        food.explore(bee);
                 }
             }
         }
     }
+
+
     private void initBees(int nbS, int nbE, int nbO) {
         // Liste pour stocker les abeilles
         bees = new ArrayList<>();

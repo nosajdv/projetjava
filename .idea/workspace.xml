@@ -49,7 +49,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/main/Bee.java",
+    "last_opened_file_path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/main/Panel.java",
     "onboarding.tips.debug.path": "/home/test/Bureau/ProjetJavaL2/projetjava/src/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
@@ -209,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714684365295</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <option name="closed" value="true" />
+      <created>1714697355636</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1714697355636</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -11,12 +11,24 @@ abstract class Bee extends JPanel {
     protected SourceFood foodSource; // Source de nourriture de l'abeille
     public int posX; // Position X de l'abeille sur le plateau
     protected int posY; // Position Y de l'abeille sur le plateau
+    public int posXMax=0;
+    public int posYMax=0;
     protected float posDX = 2.5f, posDY = 2.5f;
     public int statut=0;
     protected long lastExplorationTime; // Temps de la dernière exploration
     protected long currentTime; // Temps actuel du système
     protected long explorationStartTime; // Temps de début de l'exploration
     protected List<SourceFood> visitedSources = new ArrayList<>();
+    protected List<SourceFood> visitedSourcesEm = new ArrayList<>();
+    protected List<SourceFood> visitedSourcesEc = new ArrayList<>();
+
+    public void addVisitedSourceEc(SourceFood source) {
+        visitedSourcesEc.add(source);
+    }
+
+    public void addVisitedSourceEm(SourceFood source) {
+        visitedSourcesEm.add(source);
+    }
 
     public void addVisitedSource(SourceFood source) {
         visitedSources.add(source);
@@ -78,6 +90,20 @@ abstract class Bee extends JPanel {
             posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
         }
     }
+    public void moveTo(int ddx, int ddy){
+        // Calculer les différences entre les coordonnées actuelles et la position (0, 0)
+        int dx = ddx - posX;
+        int dy = ddy - posY;
+
+        // Déplacer l'abeille progressivement vers la position (0, 0)
+        if (dx != ddx) {
+            posX += Math.signum(dx); // Ajouter ou soustraire 1 à la position X en fonction de la direction
+        }
+        if (dy != ddy) {
+            posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
+        }
+
+    }
 
 
     // Méthode pour démarrer l'exploration d'une source de nourriture
@@ -95,11 +121,9 @@ abstract class Bee extends JPanel {
             }
         }
 
-
         if (statut == 1) {
                 return;
         }
-
         // Si l'abeille n'est pas en exploration ou si moins de 10 secondes se sont écoulées, continuez le mouvement
         // Générer des valeurs aléatoires pour le déplacement
         Random random = new Random();
@@ -116,11 +140,7 @@ abstract class Bee extends JPanel {
         if (posY > 600 || posY < 0)
             posDY *= -1;
 
-
-
     }
-
-
     // Méthode pour simuler le déplacement de l'abeille
     public void move() {
             updateBee();
