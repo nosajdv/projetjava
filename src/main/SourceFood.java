@@ -1,7 +1,6 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
 
@@ -14,18 +13,14 @@ class SourceFood {
     public int posYMax=0;
     private int explorationCount; // Compteur d'essais pour l'exploration de la source
     protected long lastExplorationTime; // Temps de la dernière exploration
-    protected long currentTime; // Temps actuel du système
     protected long explorationStartTime; // Temps de début de l'exploration
     private boolean visited;
     protected Bee exploringBee;
     private Bee exploringBee1;
     private Bee exploringBee2;
     protected String statut;
-    protected int  tempQual;
     private List<Bee> tabBee = new ArrayList<>();
-    private List<SourceFood> visitedSource2 = new ArrayList<>();
-    int inctest=0;
-    int count=0;
+
     public SourceFood(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
@@ -36,20 +31,6 @@ class SourceFood {
         generateRandomQuality(); // Appel pour générer aléatoirement la qualité initiale
     }
 
-    public static List<SourceFood> getAllFoodSources(List<SourceFood> foodSources) {
-        return foodSources;
-    }
-    public void verificationPos(Bee bee) {
-
-           if(bee.statut==3) {
-               System.out.println(this.posXMax);
-               System.out.println(this.posYMax);
-           }
-
-    }
-    public void startExploration() {
-        explorationStartTime = System.currentTimeMillis();
-    }
 
     public int getPosXMax(){
         return posXMax;
@@ -89,15 +70,6 @@ class SourceFood {
         return true;
     }
 
-    public static boolean PlateauEMMAX(List<EmployeeBee> bees) {
-        for (EmployeeBee bee : bees) {
-            if (bee.statut == 0) {
-                //  System.out.println("NO");
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     // Méthode pour qu'une abeille explore la source de nourriture

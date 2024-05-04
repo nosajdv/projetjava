@@ -9,14 +9,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Panel extends JPanel {
-    private BufferedImage img, subImg;
-    Random random;
+    private BufferedImage img,img1,img3, subImg;
     private List<Bee> bees; // Liste des abeilles
     private List<SourceFood> foodSource;
     private BufferedImage[] img2;
@@ -28,7 +25,7 @@ public class Panel extends JPanel {
 
     private void importRucheImage() {
         try {
-            InputStream is = getClass().getResourceAsStream("/Ruche.png");
+            InputStream is = getClass().getResourceAsStream("/Ruchev2.png");
             rucheImage = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,6 +37,8 @@ public class Panel extends JPanel {
         importRucheImage();
         importBackgroundImage();
         importImg();
+        importImg2();
+        importImg3();
         importFleur();
         bees = new ArrayList<>();
         foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
@@ -51,7 +50,7 @@ public class Panel extends JPanel {
     }
 
     private void importBackgroundImage() {
-        InputStream is = getClass().getResourceAsStream("/background.png"); // Assurez-vous de remplacer "background.jpg" par le nom de votre fichier d'image
+        InputStream is = getClass().getResourceAsStream("/backgroundV4.png"); // Assurez-vous de remplacer "background.jpg" par le nom de votre fichier d'image
         try {
             backgroundImage = ImageIO.read(is);
         } catch (IOException e) {
@@ -68,10 +67,28 @@ public class Panel extends JPanel {
         }
     }
 
+    private void importImg2() {
+        InputStream is = getClass().getResourceAsStream("/beeV2.png");
+        try {
+            img1 = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void importImg3() {
+        InputStream is = getClass().getResourceAsStream("/beeV3.png");
+        try {
+            img3 = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void importFleur() {
         img2 = new BufferedImage[72]; // Nombre total de fleurs dans votre fichier d'image
         try {
-            InputStream is = getClass().getResourceAsStream("/flower.png");
+            InputStream is = getClass().getResourceAsStream("/flowerv2.png");
             BufferedImage flowerSheet = ImageIO.read(is);
             int flowerWidth = 32; // Largeur d'une fleur dans votre fichier
             int flowerHeight = 32; // Hauteur d'une fleur dans votre fichier
@@ -89,11 +106,6 @@ public class Panel extends JPanel {
         }
     }
 
-    private BufferedImage getRandomFlowerImage() {
-        Random random = new Random();
-        int index = random.nextInt(img2.length);
-        return img2[index];
-    }
 
     private void setPanelSize() {
         Dimension size = new Dimension(1280, 600);
@@ -236,15 +248,23 @@ public class Panel extends JPanel {
 
         g.drawImage(rucheImage, 0, 0, null);
 
-        subImg = img.getSubimage(0*26,0*32,26,32);
-        for (Bee bee : bees) {
-            bee.paint(g); // Dessine chaque abeille
-            // if (bee instanceof ScoutBee)
-            g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
 
-            // if (bee instanceof ObserverBee)
+        for (Bee bee : bees) {
+            if (bee instanceof ScoutBee)
+                subImg = img.getSubimage(0*26,0*32,26,32);
+            if (bee instanceof ObserverBee)
+                subImg = img1.getSubimage(0*26,0*32,26,32);
+            if (bee instanceof EmployeeBee)
+                subImg = img3.getSubimage(0*26,0*32,26,32);
+
+
+                bee.paint(g); // Dessine chaque abeille
+
+
 
             // if (bee instanceof EmployeeBee)
+
+            g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
         }
         updateBees(); // Met à jour la position des abeilles
 
