@@ -32,10 +32,13 @@ class SourceFood {
         this.explorationCount = 0;
         this.visited = false; // Initialise la fleur comme non visitée
         this.exploringBee = null;
-        this.statut="Pas marquer";
+        this.statut="Pas marquée";
         generateRandomQuality(); // Appel pour générer aléatoirement la qualité initiale
     }
 
+    public static List<SourceFood> getAllFoodSources(List<SourceFood> foodSources) {
+        return foodSources;
+    }
     public void verificationPos(Bee bee) {
 
            if(bee.statut==3) {
@@ -132,11 +135,12 @@ class SourceFood {
             if (distance < 15) { // Vous pouvez ajuster cette valeur selon votre besoin
                 Random random = new Random();
                 int evaluation = quality + random.nextInt(3) - 1; // Ajoute ou soustrait une valeur aléatoire entre -1 et 1
-                if (evaluation > 1) {
+                if (evaluation > 1|| statut !="Marquée") {
                     updateQuality(evaluation); // Met à jour la qualité de la source
                     lastExplorationTime = System.currentTimeMillis(); // Mettre à jour le temps de la dernière exploration
                     exploringBee = bee;
                     bee.addVisitedSource(this);
+                    statut="Marquée";
                     bee.statut = 1;
                     incrementExplorationCount();
                 }
@@ -201,6 +205,11 @@ class SourceFood {
                     bee.statut = 3; // Déclenche le retour à la ruche pour les abeilles éclaireuses
             }
         }
+
+        if (explorationCount >= 5) {
+            // Supprimer la source de nourriture de la liste globale
+            FoodManager.removeFoodSource(this);
+        }
     }
 
         // Méthode statique pour générer plusieurs instances de SourceFood à des positions aléatoires
@@ -234,4 +243,20 @@ class SourceFood {
         }
     }
 }
+class FoodManager {
+    private static List<SourceFood> allFoodSources = new ArrayList<>();
 
+    // Méthode pour ajouter une source de nourriture à la liste globale
+    public static void addFoodSource(SourceFood foodSource) {
+        allFoodSources.add(foodSource);
+    }
+    public static void removeFoodSource(SourceFood foodSource) {
+        allFoodSources.remove(foodSource);
+    }
+    // Méthode pour récupérer toutes les sources de nourriture
+    public static List<SourceFood> getAllFoodSources() {
+        return allFoodSources;
+    }
+
+    // Autres méthodes de gestion des sources de nourriture peuvent être ajoutées ici
+}

@@ -111,6 +111,9 @@ abstract class Bee extends JPanel {
     public void startExploration() {
         explorationStartTime = System.currentTimeMillis();
     }
+    public boolean isAtRuche() {
+        return (posX == 100 && posY == 120);
+    }
 
     // Méthode pour mettre à jour le mouvement de l'abeille
     protected void updateBee() {

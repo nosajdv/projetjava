@@ -12,7 +12,7 @@ class ScoutBee extends Bee {
     }
     // Méthode pour déplacer l'éclaireuse sur le plateau
     public void move() {
-     //  super.move();
+       super.move();
     }
     // Méthode pour déplacer l'éclaireuse vers la ruche
     public void moveToRuche() {
@@ -44,6 +44,10 @@ class EmployeeBee extends Bee {
     public int getPosYMax(){
         return posYMax;
     }
+    public boolean isAtRuche() {
+        return (posX == 100 && posY == 120);
+    }
+
 
     public void moveToRuche() {
         // Calculer les différences entre les coordonnées actuelles et la position (0, 0)
@@ -63,7 +67,7 @@ class EmployeeBee extends Bee {
 
     // Méthode pour déplacer l'employée sur le plateau
     public void move() {
-        super.move();
+       super.move();
     }
 }
 
@@ -157,7 +161,7 @@ class ObserverBee extends Bee {
 
     // Méthode pour déplacer l'observatrice sur le plateau
     public void move() {
-        super.move();
+       super.move();
     }
 }
 

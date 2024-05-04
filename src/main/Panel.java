@@ -102,10 +102,23 @@ public class Panel extends JPanel {
         setMaximumSize(size);
     }
 
+    public boolean VerifSourceFood(List<SourceFood> f){
+        boolean test=true;
+        for (SourceFood food : f) {
+           if(food.statut=="Pas explorée");
+           test=false;
+        }
+        return test;
+    }
+
 
     private void updateBees() {
         long currentTime = System.currentTimeMillis();
         observe(BeeManager.getAllEmployeeBees(),BeeManager.getAllObserverBees());
+        //On vérifie si toutes les sources sont explorée
+       if(VerifSourceFood(FoodManager.getAllFoodSources()))
+        RucheDepScout(BeeManager.getAllScoutBees());
+
         for (Bee bee : bees) {
             if (bee.statut == 3 || bee.visitedSources.size()==3) {
                 bee.moveToRuche();
@@ -154,10 +167,23 @@ public class Panel extends JPanel {
             b = b - 20;
         }
     }
+    public void RucheDepScout(List<ScoutBee> scout){
+        boolean allScoutatRuche=true;
+        for (ScoutBee scouts : scout) {
+            if(!scouts.isAtRuche()) { // Si au moins une employée n'est pas rentrée
+                allScoutatRuche = false; // Mettre à false
+                break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
+            }
+        }
+        if(allScoutatRuche){
+            for(ScoutBee scouts : scout){
+                scouts.statut=0;
+            }
+        }
+    }
 
     public void observe(List<EmployeeBee> employees, List<ObserverBee> observe) {
         boolean allEmployeesCollected = true; // Initialiser à true
-
         for (EmployeeBee employee : employees) {
             if (employee.statut != 3) { // Si au moins une employée n'est pas rentrée
                 allEmployeesCollected = false; // Mettre à false
@@ -201,12 +227,8 @@ public class Panel extends JPanel {
             int flowerIndex = determineFlowerIndex(foodX, foodY); // Déterminer l'index de la fleur en fonction de sa position
             g.drawImage(img2[flowerIndex], foodX, foodY, null); // Dessiner la fleur avec son sprite spécifique
             //Affichage de la qualité
-            if(foodSource.getQuality()!=1) {
-                 qualityText = "Qualité: " + foodSource.getQuality();
-            }else{
-                 qualityText = "Morte";
-            }
-            g.setColor(Color.BLACK);
+            qualityText = "Qualité: " + foodSource.getQuality();
+            g.setColor(Color.darkGray);
             g.drawString(qualityText, foodX, foodY - 10); // Afficher la qualité au-dessus de la source de nourriture
             statutText = "Statut: " + foodSource.getStatut();
             g.drawString(statutText, foodX, foodY - 20); // Afficher le statut au-dessus de la qualité
