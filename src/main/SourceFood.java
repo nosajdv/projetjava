@@ -17,13 +17,13 @@ class SourceFood {
     protected long currentTime; // Temps actuel du système
     protected long explorationStartTime; // Temps de début de l'exploration
     private boolean visited;
-    private Bee exploringBee;
+    protected Bee exploringBee;
+    private Bee exploringBee1;
     private Bee exploringBee2;
     protected String statut;
     protected int  tempQual;
     private List<Bee> tabBee = new ArrayList<>();
     private List<SourceFood> visitedSource2 = new ArrayList<>();
-
     int inctest=0;
     int count=0;
     public SourceFood(int posX, int posY) {
@@ -100,15 +100,28 @@ class SourceFood {
     // Méthode pour qu'une abeille explore la source de nourriture
     public void explore(Bee bee) {
         if (bee.type.equals("Observatrice")) {
+            if (bee.visitedSources.size() >= 3 || bee.statut==3) {
+                bee.statut = 3;
+                return;
+            }
+            if (bee.statut == 1 || bee.visitedSources.contains(this) || exploringBee1 != null) {
+                    bee.statut = 0;
+                return;
+            }
             double distance = bee.calculateDistance(posX, posY);
             // Si l'abeille est à une distance inférieure à 15 (ou une autre valeur appropriée)
+            Random random = new Random();
+            int evaluation = quality + random.nextInt(3) - 1; // Ajoute ou soustrait une valeur aléatoire entre -1 et 1
             if (distance < 15) {
-                // Déplacer l'abeille observatrice vers la source de nourriture
-                bee.moveTo(posX, posY);
-                // Mettre à jour le statut de l'abeille observatrice à 3
-                bee.statut = 0; // Mettre à jour le statut de l'observatrice à 0
+                updateQuality(evaluation); // Met à jour la qualité de la source
+                lastExplorationTime = System.currentTimeMillis(); // Mettre à jour le temps de la dernière exploration
+                exploringBee1 = bee;
+                bee.addVisitedSource(this);
+                bee.statut = 1;
+                incrementExplorationCount();
             }
         }
+
         // Simuler l'évaluation de la qualité de la source par l'abeille éclaireuse
         if (bee.type == "Éclaireuse") {
             List<ScoutBee> allBees = BeeManager.getAllScoutBees();
@@ -168,7 +181,11 @@ class SourceFood {
                     updateQuality(evaluation);
                     lastExplorationTime = System.currentTimeMillis();
                     exploringBee2 = bee;
-                    tabBee.add(bee);
+                    if(evaluation>bee.temp) {
+                        bee.posXMax = posX;
+                        bee.posYMax = posY;
+                        bee.temp = evaluation;
+                    }
                     bee.addVisitedSource(this);
                     if(bee.visitedSources.size()==3) {
                         bee.statut = 1;

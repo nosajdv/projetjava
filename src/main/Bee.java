@@ -21,6 +21,7 @@ abstract class Bee extends JPanel {
     protected List<SourceFood> visitedSources = new ArrayList<>();
     protected List<SourceFood> visitedSourcesEm = new ArrayList<>();
     protected List<SourceFood> visitedSourcesEc = new ArrayList<>();
+    int temp;
 
     public void addVisitedSourceEc(SourceFood source) {
         visitedSourcesEc.add(source);

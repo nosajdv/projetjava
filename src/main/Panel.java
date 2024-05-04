@@ -1,5 +1,6 @@
 package main;
 import inputs.Clavier;
+import inputs.Mouse;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +21,7 @@ public class Panel extends JPanel {
     private List<SourceFood> foodSource;
     private BufferedImage[] img2;
     private BufferedImage backgroundImage; // Image de fond vert
-    private inputs.Mouse souris;
+    private Mouse souris;
     String qualityText;
     String statutText;
     private BufferedImage rucheImage;
@@ -34,7 +35,7 @@ public class Panel extends JPanel {
         }
     }
     public Panel(){
-         souris = new inputs.Mouse(this);
+         souris = new Mouse(this);
          importRucheImage();
          importBackgroundImage();
          importImg();
@@ -43,7 +44,7 @@ public class Panel extends JPanel {
          foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
          initBees(15,10,5);
          setPanelSize();
-         addKeyListener(new inputs.Clavier());
+         addKeyListener(new Clavier());
          addMouseListener(souris);
          addMouseMotionListener(souris);
     }
@@ -99,24 +100,25 @@ public class Panel extends JPanel {
         setMaximumSize(size);
     }
 
+
     private void updateBees() {
         long currentTime = System.currentTimeMillis();
 
         for (Bee bee : bees) {
-
+            if(bee.type=="Observatrice"){((ObserverBee)bee).observe(BeeManager.getAllEmployeeBees());}
             if (bee.statut == 3) {
                 bee.moveToRuche();
-            }else{
-                if (bee instanceof ObserverBee) {
-                    ((ObserverBee) bee).observe(BeeManager.getAllEmployeeBees());
-                }
+            }
+            else {
                 bee.move();
                 for (SourceFood food : foodSource) {
-                        food.explore(bee);
+                    food.explore(bee);
                 }
             }
+
         }
     }
+
 
 
     private void initBees(int nbS, int nbE, int nbO) {
@@ -138,6 +140,7 @@ public class Panel extends JPanel {
         for (int i = 0; i < nbE; i++) {
             EmployeeBee employeeBee = new EmployeeBee(a, b);
             bees.add(employeeBee);
+            BeeManager.addBee(employeeBee);
             a=a-10;
             b=b-10;
         }
@@ -147,6 +150,7 @@ public class Panel extends JPanel {
         for (int i = 0; i < nbO; i++) {
             ObserverBee observerBee = new ObserverBee(a, b);
             bees.add(observerBee);
+            BeeManager.addBee(observerBee);
             a=a-20;
             b=b-20;
         }
@@ -158,8 +162,6 @@ public class Panel extends JPanel {
         // empeche les bugs
         super.paintComponent(g);
         // Dessiner l'image de la ruche à la position (0, 0)
-
-
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         for (SourceFood foodSource : foodSource) {
             int foodX = foodSource.getPosX(); // Récupérer la position X de la source de nourriture

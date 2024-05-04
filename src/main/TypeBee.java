@@ -12,7 +12,7 @@ class ScoutBee extends Bee {
     }
     // Méthode pour déplacer l'éclaireuse sur le plateau
     public void move() {
-       super.move();
+     //  super.move();
     }
     // Méthode pour déplacer l'éclaireuse vers la ruche
     public void moveToRuche() {
@@ -57,6 +57,7 @@ class EmployeeBee extends Bee {
         if (dy != 120) {
             posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
         }
+        statut=3;
     }
 
 
@@ -71,7 +72,7 @@ class ObserverBee extends Bee {
 
     public ObserverBee(int posX, int posY) {
         super("Observatrice", posX, posY);
-        statut = 3;
+        temp=0;
     }
 
     public void moveToRuche() {
@@ -99,11 +100,12 @@ class ObserverBee extends Bee {
 
     public void observe(List<EmployeeBee> employees) {
         boolean allEmployeesCollected = true; // Initialiser à true
-
         // Vérifie si toutes les employées ont un statut de 3
         for (EmployeeBee employee : employees) {
             if (employee.statut != 3) { // Si au moins une employée n'est pas rentrée
                 allEmployeesCollected = false; // Mettre à false
+              //  System.out.println("FAlsde");
+                statut=3;
                 break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
             }
         }
@@ -112,7 +114,12 @@ class ObserverBee extends Bee {
             // Une fois que toutes les employées ont terminé la collecte, les observatrices se déplacent
             for (EmployeeBee employee : employees) {
                 // Les observatrices se dirigent vers les positions posXMax et posYMax de chaque employée
-                moveTo(employee.getPosXMax(), employee.getPosYMax());
+                if(statut!=1 || statut==4) {
+                    if(employee.posXMax!=0 && employee.posYMax!=0) {
+                        moveTo(employee.getPosXMax(), employee.getPosYMax());
+
+                    }
+                }
             }
             statut = 0; // Mettre à jour le statut de l'observatrice à 0
         }
@@ -122,23 +129,17 @@ class ObserverBee extends Bee {
         int dx = targetX - posX;
         int dy = targetY - posY;
 
-        // Calcul de la distance entre la position actuelle et la position cible
-        double distance = Math.sqrt(dx * dx + dy * dy);
-
-        // Vérification si l'abeille est déjà à la position cible
-        if (distance <= 1.0) {
-            return; // Pas besoin de déplacer l'abeille car elle est déjà à la position cible
+        // Déplacer l'observatrice progressivement vers la position cible
+        if (dx != 0) {
+            posX += Math.signum(dx); // Ajouter ou soustraire 1 à la position X en fonction de la direction
+        }
+        if (dy != 0) {
+            posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
         }
 
-        // Calcul de la quantité à déplacer selon la vitesse de l'abeille
-        double speed = 1.0; // Vitesse de déplacement de l'abeille
-        double amountToMoveX = (dx / distance) * speed;
-        double amountToMoveY = (dy / distance) * speed;
-
-        // Mise à jour de la position de l'abeille
-        posX += amountToMoveX;
-        posY += amountToMoveY;
+        statut=3;
     }
+
 
 
 
