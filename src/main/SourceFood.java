@@ -100,7 +100,7 @@ class SourceFood {
     // Méthode pour qu'une abeille explore la source de nourriture
     public void explore(Bee bee) {
         if (bee.type.equals("Observatrice")) {
-            if (bee.visitedSources.size() >= 3 || bee.statut==3) {
+            if (bee.visitedSources.size() >= 3) {
                 bee.statut = 3;
                 return;
             }

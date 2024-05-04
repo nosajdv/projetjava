@@ -73,6 +73,7 @@ class ObserverBee extends Bee {
     public ObserverBee(int posX, int posY) {
         super("Observatrice", posX, posY);
         temp=0;
+        statut=3;
     }
 
     public void moveToRuche() {
@@ -109,16 +110,12 @@ class ObserverBee extends Bee {
                 break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
             }
         }
-
         if (allEmployeesCollected) {
             // Une fois que toutes les employées ont terminé la collecte, les observatrices se déplacent
             for (EmployeeBee employee : employees) {
                 // Les observatrices se dirigent vers les positions posXMax et posYMax de chaque employée
-                if(statut!=1 || statut==4) {
-                    if(employee.posXMax!=0 && employee.posYMax!=0) {
+                if(statut!=4) {
                         moveTo(employee.getPosXMax(), employee.getPosYMax());
-
-                    }
                 }
             }
             statut = 0; // Mettre à jour le statut de l'observatrice à 0
@@ -137,7 +134,6 @@ class ObserverBee extends Bee {
             posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
         }
 
-        statut=3;
     }
 
 

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="61a4a293-1693-4b10-90a7-edf9b08d9ba5" name="Changes" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Bee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Bee.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/Panel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Panel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/SourceFood.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/SourceFood.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/TypeBee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/TypeBee.java" afterDir="false" />
@@ -225,7 +224,23 @@
       <option name="project" value="LOCAL" />
       <updated>1714755779031</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <option name="closed" value="true" />
+      <created>1714819019580</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1714819019580</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/main/Bee.java&#10;#&#9;src/main/Panel.java">
+      <option name="closed" value="true" />
+      <created>1714819119186</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1714819119186</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

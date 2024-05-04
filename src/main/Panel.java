@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Panel extends JPanel {
-    private BufferedImage img,subImg;
+    private BufferedImage img, subImg;
     Random random;
     private List<Bee> bees; // Liste des abeilles
     private List<SourceFood> foodSource;
@@ -34,19 +34,20 @@ public class Panel extends JPanel {
             e.printStackTrace();
         }
     }
-    public Panel(){
-         souris = new Mouse(this);
-         importRucheImage();
-         importBackgroundImage();
-         importImg();
-         importFleur();
-         bees = new ArrayList<>();
-         foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
-         initBees(15,10,5);
-         setPanelSize();
-         addKeyListener(new Clavier());
-         addMouseListener(souris);
-         addMouseMotionListener(souris);
+
+    public Panel() {
+        souris = new Mouse(this);
+        importRucheImage();
+        importBackgroundImage();
+        importImg();
+        importFleur();
+        bees = new ArrayList<>();
+        foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
+        initBees(15, 10, 5);
+        setPanelSize();
+        addKeyListener(new Clavier());
+        addMouseListener(souris);
+        addMouseMotionListener(souris);
     }
 
     private void importBackgroundImage() {
@@ -58,14 +59,15 @@ public class Panel extends JPanel {
         }
     }
 
-    private void importImg(){
+    private void importImg() {
         InputStream is = getClass().getResourceAsStream("/bee_spritesheetv2.png");
-        try{
+        try {
             img = ImageIO.read(is);
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     private void importFleur() {
         img2 = new BufferedImage[72]; // Nombre total de fleurs dans votre fichier d'image
         try {
@@ -76,8 +78,8 @@ public class Panel extends JPanel {
             int rows = flowerSheet.getHeight() / flowerHeight;
             int cols = flowerSheet.getWidth() / flowerWidth;
             int index = 0;
-            for (int i = 0; i < rows-1; i++) {
-                for (int j = 0; j < cols-1; j++) {
+            for (int i = 0; i < rows - 1; i++) {
+                for (int j = 0; j < cols - 1; j++) {
                     img2[index] = flowerSheet.getSubimage(j * flowerWidth, i * flowerHeight, flowerWidth, flowerHeight);
                     index++;
                 }
@@ -93,8 +95,8 @@ public class Panel extends JPanel {
         return img2[index];
     }
 
-    private void setPanelSize(){
-        Dimension size = new Dimension(1280,600);
+    private void setPanelSize() {
+        Dimension size = new Dimension(1280, 600);
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);
@@ -103,13 +105,11 @@ public class Panel extends JPanel {
 
     private void updateBees() {
         long currentTime = System.currentTimeMillis();
-
+        observe(BeeManager.getAllEmployeeBees(),BeeManager.getAllObserverBees());
         for (Bee bee : bees) {
-            if(bee.type=="Observatrice"){((ObserverBee)bee).observe(BeeManager.getAllEmployeeBees());}
-            if (bee.statut == 3) {
+            if (bee.statut == 3 || bee.visitedSources.size()==3) {
                 bee.moveToRuche();
-            }
-            else {
+            } else {
                 bee.move();
                 for (SourceFood food : foodSource) {
                     food.explore(bee);
@@ -120,43 +120,75 @@ public class Panel extends JPanel {
     }
 
 
-
     private void initBees(int nbS, int nbE, int nbO) {
         // Liste pour stocker les abeilles
         bees = new ArrayList<>();
-        int a=100,b=100;
+        int a = 100, b = 100;
         // Créez et ajoutez les abeilles ScoutBee
         for (int i = 0; i < nbS; i++) {
             ScoutBee scoutBee = new ScoutBee(a, b);
             bees.add(scoutBee);
             BeeManager.addBee(scoutBee);
-            a=a-10;
-            b=b-10;
+            a = a - 10;
+            b = b - 10;
         }
 
-         a=200;
-         b=200;
+        a = 200;
+        b = 200;
         // Créez et ajoutez les abeilles EmployeeBee
         for (int i = 0; i < nbE; i++) {
             EmployeeBee employeeBee = new EmployeeBee(a, b);
             bees.add(employeeBee);
             BeeManager.addBee(employeeBee);
-            a=a-10;
-            b=b-10;
+            a = a - 10;
+            b = b - 10;
         }
-        a=300;
-        b=300;
+        a = 300;
+        b = 300;
         // Créez et ajoutez les abeilles ObserverBee
         for (int i = 0; i < nbO; i++) {
             ObserverBee observerBee = new ObserverBee(a, b);
             bees.add(observerBee);
             BeeManager.addBee(observerBee);
-            a=a-20;
-            b=b-20;
+            a = a - 20;
+            b = b - 20;
         }
     }
 
+    public void observe(List<EmployeeBee> employees, List<ObserverBee> observe) {
+        boolean allEmployeesCollected = true; // Initialiser à true
 
+        for (EmployeeBee employee : employees) {
+            if (employee.statut != 3) { // Si au moins une employée n'est pas rentrée
+                allEmployeesCollected = false; // Mettre à false
+                //  System.out.println("FAlsde");
+                break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
+            }
+        }
+
+        if (allEmployeesCollected) {
+            for (ObserverBee observer : observe) {
+                for (EmployeeBee employee : employees) {
+                    // Les observatrices se dirigent vers les positions posXMax et posYMax de chaque employée
+                    if(observer.visitedSources.size()>=3) {
+                        return;
+                    }
+                    if (observer.statut != 1 && observer.statut != 4) {
+                        observer.moveTo(employee.posXMax, employee.posYMax);
+                        observer.posXMax=employee.posXMax;
+                        observer.posYMax=employee.posYMax;
+                        observer.statut=4;
+                    }
+                }
+            }
+            // Mettre à jour le statut de l'observatrice à 0
+            for (ObserverBee observer : observe) {
+                observer.statut = 0;
+            }
+        }
+
+
+}
     public void paint(Graphics g){
         // permet de faire tout ce qui est nécéssaire avant de dessiner
         // empeche les bugs
@@ -224,3 +256,4 @@ public class Panel extends JPanel {
 }
 
 
+/* if(bee.type=="Observatrice"){((ObserverBee)bee).observe(BeeManager.getAllEmployeeBees());}*/
