@@ -118,9 +118,8 @@ class SourceFood {
                     bee.statut = 1;
                     incrementeExploration();
                 }
-
+                     //Verification si toute les abbeiles sont ont une source de nourriture
                 if (PlateauEcMAX(allBees) == true) {
-                    System.out.println("Enfin");
                     for (EclaireuseBee b : allBees) {
                         b.statut = 3; // Déclenche le retour à la ruche pour les abeilles éclaireuses
                     }
@@ -211,11 +210,7 @@ class SourceFood {
     public int getQualite(){
         return qualite;
     }
-    public static void resetVisited(List<SourceFood> foodSources) {
-        for (SourceFood food : foodSources) {
-            food.visited = false; // Réinitialise l'état de visite de chaque fleur
-        }
-    }
+
 }
 class FoodManager {
     private static List<SourceFood> allFoodSources = new ArrayList<>();

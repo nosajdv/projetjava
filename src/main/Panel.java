@@ -22,6 +22,7 @@ public class Panel extends JPanel {
     String statutText;
     private BufferedImage rucheImage;
     int phase=0;
+    int fin;
 
     private void importRucheImage() {
         try {
@@ -151,12 +152,12 @@ public class Panel extends JPanel {
         if(phase==1){
             for(EmployeeBee employee : BeeManager.getAllEmployeeBees()){
                 employee.statut=5;
-                System.out.println(employee.posXMax+" et "+employee.posYMax);
+              //  System.out.println(employee.posXMax+" et "+employee.posYMax);
                 employee.moveTo(employee.posXMax, employee.posYMax);
             }
             for(ObservatriceBee observe : BeeManager.getAllObserveratriceBees()){
                 observe.statut=5;
-                System.out.println(observe.posXMax+" et "+observe.posYMax);
+             //   System.out.println(observe.posXMax+" et "+observe.posYMax);
                 observe.moveTo(observe.posXMax, observe.posYMax);
             }
         }
@@ -313,8 +314,26 @@ public class Panel extends JPanel {
                 subImg = img1.getSubimage(0*26,0*32,26,32);
 
                bee.paint(g); // Dessine chaque abeille
-          // if (bee instanceof EmployeeBee)
+          // if (bee instancefinSimulaton(FoodManager.getAllFoodSources())of EmployeeBee)
             g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
+        }
+        fin=finSimulaton(FoodManager.getAllFoodSources());
+        if(fin>0){
+            // Créer une police plus grande
+            Font font = new Font("Arial", Font.BOLD, 30);
+            g.setFont(font);
+            // Définir la couleur du texte
+            g.setColor(Color.RED);
+            // Définir le texte à afficher
+            String message = "Meilleure source qualité: " + fin + "... fin de la simulation";
+            // Obtenir les dimensions du texte
+            FontMetrics metrics = g.getFontMetrics(font);
+            int textWidth = metrics.stringWidth(message);
+            // Calculer les coordonnées pour centrer le texte
+            int x = (getWidth() - textWidth) / 2;
+            int y = getHeight() / 2;
+            // Dessiner le texte
+            g.drawString(message, x, y);
         }
         updateBees(); // Met à jour la position des abeilles
     }

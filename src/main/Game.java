@@ -37,7 +37,7 @@ public class Game implements Runnable {
             // Vérification des FPS pour pas que sa ramme
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS :" + fps);
+                //System.out.println("FPS :" + fps);
                 fps = 0;
             }
         }

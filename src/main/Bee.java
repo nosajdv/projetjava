@@ -16,8 +16,6 @@ abstract class Bee extends JPanel {
     public int statut=0;
     protected long explorationStartTime; // Temps de début de l'exploration
     protected List<SourceFood> visiteeSources = new ArrayList<>();
-    protected List<SourceFood> visitedSourcesEm = new ArrayList<>();
-    protected List<SourceFood> visitedSourcesEc = new ArrayList<>();
     int temp;
 
 
