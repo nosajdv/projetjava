@@ -97,8 +97,8 @@ public class Panel extends JPanel {
             int rows = flowerSheet.getHeight() / fleurHeight;
             int cols = flowerSheet.getWidth() / fleurWidth;
             int index = 0;
-            for (int i = 0; i < rows ; i++) {
-                for (int j = 0; j < cols ; j++) {
+            for (int i = 0; i < rows -1; i++) {
+                for (int j = 0; j < cols -1; j++) {
                     img2[index] = flowerSheet.getSubimage(j * fleurWidth, i * fleurHeight, fleurWidth, fleurHeight);
                     index++;
                 }
@@ -314,7 +314,6 @@ public class Panel extends JPanel {
                 subImg = img3.getSubimage(0*26,0*32,26,32);
             if (bee instanceof EmployeeBee)
                 subImg = img1.getSubimage(0*26,0*32,26,32);
-
                bee.paint(g); // Dessine chaque abeille
             g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
         }
