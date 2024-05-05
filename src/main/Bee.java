@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 abstract class Bee extends JPanel {
     protected String type; // Type de l'abeille (éclaireuse, employée, observatrice)
-    protected SourceFood foodSource; // Source de nourriture de l'abeille
+    protected SourceNourriutre foodSource; // Source de nourriture de l'abeille
     public int posX; // Position X de l'abeille sur le plateau
     protected int posY; // Position Y de l'abeille sur le plateau
     public int posXMax=0;
@@ -15,11 +15,11 @@ abstract class Bee extends JPanel {
     protected float posDX = 2.5f, posDY = 2.5f;
     public int statut=0;
     protected long explorationStartTime; // Temps de début de l'exploration
-    protected List<SourceFood> visiteeSources = new ArrayList<>();
+    protected List<SourceNourriutre> visiteeSources = new ArrayList<>();
     int temp;
 
-
-    public void addVisitedSource(SourceFood source) {
+    //Un source est visité
+    public void addSourceVisite(SourceNourriutre source) {
         visiteeSources.add(source);
     }
 
@@ -48,7 +48,7 @@ abstract class Bee extends JPanel {
         this.posX += val;
     }
 
-    public double calculateDistance(int targetX, int targetY) {
+    public double calculDistance(int targetX, int targetY) {
         double dx = this.posX - targetX;
         double dy = this.posY - targetY;
         return Math.sqrt(dx * dx + dy * dy);
@@ -105,7 +105,7 @@ abstract class Bee extends JPanel {
 
     // Méthode pour mettre à jour le mouvement de l'abeille
     protected void updateBee() {
-        for (SourceFood source : visiteeSources) {
+        for (SourceNourriutre source : visiteeSources) {
             long test =System.currentTimeMillis() - source.ExplorationTmps;
             //System.out.println(test);
             if(test<2000){

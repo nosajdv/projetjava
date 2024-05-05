@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class Window extends JFrame {
     private JFrame jframe;
+    //Toute les modifications et applications sur la fenetre
     public Window(Panel p){
         jframe = new JFrame();
         jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

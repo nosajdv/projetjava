@@ -12,26 +12,18 @@ import java.io.IOException;
 import java.util.List;
 
 public class Panel extends JPanel {
-    private BufferedImage img,img1,img3, subImg;
+    private BufferedImage img,img1,img3, subImg; // toutes les images
     private List<Bee> bees; // Liste des abeilles
-    private List<SourceFood> foodSource;
-    private BufferedImage[] img2;
-    private BufferedImage backgroundImage; // Image de fond vert
-    private Mouse souris;
-    String qualityText;
-    String statutText;
+    private List<SourceNourriutre> sourceNourriutres; // Source de nourriture
+    private BufferedImage[] img2; //liste de fleurs
+    private BufferedImage backgroundImage; // fond
+    private Mouse souris; // suivre le mouvement de la souris (pas utiliser dans ce projet)
+    String qualiteText; // affichage qualité
+    String statutText; // affichage statut
     private BufferedImage rucheImage;
     int phase=0;
     int fin;
 
-    private void importRucheImage() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/Ruchev2.png");
-            rucheImage = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Panel() {
         souris = new Mouse(this);
@@ -42,23 +34,32 @@ public class Panel extends JPanel {
         importImg3();
         importFleur();
         bees = new ArrayList<>();
-        foodSource = SourceFood.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
+        sourceNourriutres = SourceNourriutre.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
         initBees(15, 10, 5);
         setPanelSize();
         addKeyListener(new Clavier());
         addMouseListener(souris);
         addMouseMotionListener(souris);
     }
-
+    //Image de la ruche
+    private void importRucheImage() {
+        try {
+            InputStream is = getClass().getResourceAsStream("/Ruchev2.png");
+            rucheImage = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    //Image du fond
     private void importBackgroundImage() {
-        InputStream is = getClass().getResourceAsStream("/backgroundV4.png"); // Assurez-vous de remplacer "background.jpg" par le nom de votre fichier d'image
+        InputStream is = getClass().getResourceAsStream("/backgroundV4.png");
         try {
             backgroundImage = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+   // image abeille (sans animation)
     private void importImg() {
         InputStream is = getClass().getResourceAsStream("/bee_spritesheetv2.png");
         try {
@@ -67,7 +68,7 @@ public class Panel extends JPanel {
             e.printStackTrace();
         }
     }
-
+  //IMAGE Observatrice
     private void importImg2() {
         InputStream is = getClass().getResourceAsStream("/beeV2.png");
         try {
@@ -76,7 +77,7 @@ public class Panel extends JPanel {
             e.printStackTrace();
         }
     }
-
+    //IMAGE Employee
     private void importImg3() {
         InputStream is = getClass().getResourceAsStream("/beeV3.png");
         try {
@@ -87,18 +88,18 @@ public class Panel extends JPanel {
     }
 
     private void importFleur() {
-        img2 = new BufferedImage[72]; // Nombre total de fleurs dans votre fichier d'image
+        img2 = new BufferedImage[83]; // Nombre total de fleurs dans votre fichier d'image
         try {
             InputStream is = getClass().getResourceAsStream("/flowerv2.png");
             BufferedImage flowerSheet = ImageIO.read(is);
-            int flowerWidth = 32; // Largeur d'une fleur dans votre fichier
-            int flowerHeight = 32; // Hauteur d'une fleur dans votre fichier
-            int rows = flowerSheet.getHeight() / flowerHeight;
-            int cols = flowerSheet.getWidth() / flowerWidth;
+            int fleurWidth = 32; // Largeur d'une fleur dans votre fichier
+            int fleurHeight = 32; // Hauteur d'une fleur dans votre fichier
+            int rows = flowerSheet.getHeight() / fleurHeight;
+            int cols = flowerSheet.getWidth() / fleurWidth;
             int index = 0;
-            for (int i = 0; i < rows - 1; i++) {
-                for (int j = 0; j < cols - 1; j++) {
-                    img2[index] = flowerSheet.getSubimage(j * flowerWidth, i * flowerHeight, flowerWidth, flowerHeight);
+            for (int i = 0; i < rows ; i++) {
+                for (int j = 0; j < cols ; j++) {
+                    img2[index] = flowerSheet.getSubimage(j * fleurWidth, i * fleurHeight, fleurWidth, fleurHeight);
                     index++;
                 }
             }
@@ -115,9 +116,9 @@ public class Panel extends JPanel {
         setMaximumSize(size);
     }
 
-    public boolean VerifSourceFood(List<SourceFood> f){
+    public boolean VerifSourceFood(List<SourceNourriutre> f){
         boolean test=true;
-        for (SourceFood food : f) {
+        for (SourceNourriutre food : f) {
            if(food.statut=="Pas explorée");
            test=false;
         }
@@ -143,7 +144,7 @@ public class Panel extends JPanel {
                     bee.moveTo(bee.posXMax, bee.posYMax);
             }else{
                 bee.move();
-                for (SourceFood food : foodSource) {
+                for (SourceNourriutre food : sourceNourriutres) {
                     food.explore(bee);
                 }
             }
@@ -166,9 +167,9 @@ public class Panel extends JPanel {
             System.out.println("Meilleur source qualité:" + test +"... fin de de simulation");
         }
     }
-    public int finSimulaton(List<SourceFood> sources){
+    public int finSimulaton(List<SourceNourriutre> sources){
        int qualmax=-9999;
-        for(SourceFood source: sources){
+        for(SourceNourriutre source: sources){
             if(source.statut=="Pas marqué"){
               return -1;
             }
@@ -214,14 +215,14 @@ public class Panel extends JPanel {
         }
     }
     public void RucheDepEclaireuse(List<EclaireuseBee> scout){
-        boolean allScoutatRuche=true;
+        boolean allEclaireuseatRuche=true;
         for (EclaireuseBee scouts : scout) {
             if(!scouts.isAtRuche()) { // Si au moins une employée n'est pas rentrée
-                allScoutatRuche = false; // Mettre à false
+                allEclaireuseatRuche = false; // Mettre à false
                 break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
             }
         }
-        if(allScoutatRuche){
+        if(allEclaireuseatRuche){
             for(EclaireuseBee scouts : scout){
                 scouts.statut=0;
             }
@@ -289,22 +290,23 @@ public class Panel extends JPanel {
         super.paintComponent(g);
         // Dessiner l'image de la ruche à la position (0, 0)
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-        for (SourceFood foodSource : foodSource) {
-            int foodX = foodSource.getPosX(); // Récupérer la position X de la source de nourriture
-            int foodY = foodSource.getPosY(); // Récupérer la position Y de la source de nourriture
+        // Dessiner toutes les sources de nourriture
+        for (SourceNourriutre sourceNourriutre : sourceNourriutres) {
+            int foodX = sourceNourriutre.getPosX(); // Récupérer la position X de la source de nourriture
+            int foodY = sourceNourriutre.getPosY(); // Récupérer la position Y de la source de nourriture
             int flowerIndex = determineFlowerIndex(foodX, foodY); // Déterminer l'index de la fleur en fonction de sa position
             g.drawImage(img2[flowerIndex], foodX, foodY, null); // Dessiner la fleur avec son sprite spécifique
             //Affichage de la qualité
-            qualityText = "Qualité: " + foodSource.getQualite();
+            qualiteText = "Qualité: " + sourceNourriutre.getQualite();
             g.setColor(Color.darkGray);
-            g.drawString(qualityText, foodX, foodY - 10); // Afficher la qualité au-dessus de la source de nourriture
-            statutText = "Statut: " + foodSource.getStatut();
+            g.drawString(qualiteText, foodX, foodY - 10); // Afficher la qualité au-dessus de la source de nourriture
+            statutText = "Statut: " + sourceNourriutre.getStatut();
             g.drawString(statutText, foodX, foodY - 20); // Afficher le statut au-dessus de la qualité
         }
 
         g.drawImage(rucheImage, 0, 0, null);
 
-
+           //dessin de toute les images
         for (Bee bee : bees) {
             if (bee instanceof EclaireuseBee)
                 subImg = img.getSubimage(0*26,0*32,26,32);
@@ -314,7 +316,6 @@ public class Panel extends JPanel {
                 subImg = img1.getSubimage(0*26,0*32,26,32);
 
                bee.paint(g); // Dessine chaque abeille
-          // if (bee instancefinSimulaton(FoodManager.getAllFoodSources())of EmployeeBee)
             g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
         }
         fin=finSimulaton(FoodManager.getAllFoodSources());
@@ -363,6 +364,3 @@ public class Panel extends JPanel {
         }
     }
 }
-
-
-/* if(bee.type=="Observatrice"){((ObserverBee)bee).observe(BeeManager.getAllEmployeeBees());}*/
