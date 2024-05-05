@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Random;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +21,7 @@ public class Panel extends JPanel {
     String qualityText;
     String statutText;
     private BufferedImage rucheImage;
+    int phase=0;
 
     private void importRucheImage() {
         try {
@@ -126,15 +126,21 @@ public class Panel extends JPanel {
 
     private void updateBees() {
         long currentTime = System.currentTimeMillis();
-        observe(BeeManager.getAllEmployeeBees(),BeeManager.getAllObserverBees());
+        observe(BeeManager.getAllEmployeeBees(),BeeManager.getAllObserveratriceBees());
+
+
+        phase=employeeObserveVerif(BeeManager.getAllEmployeeBees(),BeeManager.getAllObserveratriceBees());
+
         //On vérifie si toutes les sources sont explorée
        if(VerifSourceFood(FoodManager.getAllFoodSources()))
-        RucheDepScout(BeeManager.getAllScoutBees());
+        RucheDepEclaireuse(BeeManager.getAllEclaireuseBees());
 
         for (Bee bee : bees) {
-            if (bee.statut == 3 || bee.visitedSources.size()==3) {
+            if (bee.statut == 3) {
                 bee.moveToRuche();
-            } else {
+            }else if(bee.statut==5){
+                    bee.moveTo(bee.posXMax, bee.posYMax);
+            }else{
                 bee.move();
                 for (SourceFood food : foodSource) {
                     food.explore(bee);
@@ -142,59 +148,107 @@ public class Panel extends JPanel {
             }
 
         }
+        if(phase==1){
+            for(EmployeeBee employee : BeeManager.getAllEmployeeBees()){
+                employee.statut=5;
+                System.out.println(employee.posXMax+" et "+employee.posYMax);
+                employee.moveTo(employee.posXMax, employee.posYMax);
+            }
+            for(ObservatriceBee observe : BeeManager.getAllObserveratriceBees()){
+                observe.statut=5;
+                System.out.println(observe.posXMax+" et "+observe.posYMax);
+                observe.moveTo(observe.posXMax, observe.posYMax);
+            }
+        }
+        int test=finSimulaton(FoodManager.getAllFoodSources());
+        if(test>0){
+            System.out.println("Meilleur source qualité:" + test +"... fin de de simulation");
+        }
+    }
+    public int finSimulaton(List<SourceFood> sources){
+       int qualmax=-9999;
+        for(SourceFood source: sources){
+            if(source.statut=="Pas marqué"){
+              return -1;
+            }
+            if(source.getQualite()>qualmax){
+                qualmax=source.getQualite();
+            }
+        }
+        return qualmax;
     }
 
 
     private void initBees(int nbS, int nbE, int nbO) {
         // Liste pour stocker les abeilles
         bees = new ArrayList<>();
-        int a = 100, b = 100;
+        int a = 100, b = 120;
         // Créez et ajoutez les abeilles ScoutBee
         for (int i = 0; i < nbS; i++) {
-            ScoutBee scoutBee = new ScoutBee(a, b);
-            bees.add(scoutBee);
-            BeeManager.addBee(scoutBee);
-            a = a - 10;
-            b = b - 10;
+            EclaireuseBee Eclaireuse = new EclaireuseBee(a, b);
+            bees.add(Eclaireuse);
+            BeeManager.addBee(Eclaireuse);
+
         }
 
-        a = 200;
-        b = 200;
+
+        a = 100;
+        b = 120;
         // Créez et ajoutez les abeilles EmployeeBee
         for (int i = 0; i < nbE; i++) {
             EmployeeBee employeeBee = new EmployeeBee(a, b);
             bees.add(employeeBee);
             BeeManager.addBee(employeeBee);
-            a = a - 10;
-            b = b - 10;
+
         }
-        a = 300;
-        b = 300;
+        a = 100;
+        b = 120;
         // Créez et ajoutez les abeilles ObserverBee
         for (int i = 0; i < nbO; i++) {
-            ObserverBee observerBee = new ObserverBee(a, b);
-            bees.add(observerBee);
-            BeeManager.addBee(observerBee);
+            ObservatriceBee observatriceBee = new ObservatriceBee(a, b);
+            bees.add(observatriceBee);
+            BeeManager.addBee(observatriceBee);
             a = a - 20;
             b = b - 20;
         }
     }
-    public void RucheDepScout(List<ScoutBee> scout){
+    public void RucheDepEclaireuse(List<EclaireuseBee> scout){
         boolean allScoutatRuche=true;
-        for (ScoutBee scouts : scout) {
+        for (EclaireuseBee scouts : scout) {
             if(!scouts.isAtRuche()) { // Si au moins une employée n'est pas rentrée
                 allScoutatRuche = false; // Mettre à false
                 break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
             }
         }
         if(allScoutatRuche){
-            for(ScoutBee scouts : scout){
+            for(EclaireuseBee scouts : scout){
                 scouts.statut=0;
             }
         }
     }
 
-    public void observe(List<EmployeeBee> employees, List<ObserverBee> observe) {
+    public int employeeObserveVerif(List<EmployeeBee> employe,List<ObservatriceBee> observatrice){
+        boolean allEmployeatRuche=true;
+        boolean allObserveatRuche=true;
+
+        for (EmployeeBee employee : employe) {
+            if(!employee.isAtRuche()) { // Si au moins une observatrice n'est pas rentrée
+                allEmployeatRuche = false; // Mettre à false
+                break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
+            }
+        }
+        for (ObservatriceBee observe : observatrice) {
+            if(!observe.isAtRuche()) { // S// i au moins une employée n'est pas rentrée
+                allObserveatRuche = false; // Mettre à false
+                break; // Sortir de la boucle car on sait déjà que toutes les employées ne sont pas rentrées
+            }
+        }
+        if(allObserveatRuche&&allEmployeatRuche ){
+         return 1;
+        }
+        return 0;
+    }
+    public void observe(List<EmployeeBee> employees, List<ObservatriceBee> observe) {
         boolean allEmployeesCollected = true; // Initialiser à true
         for (EmployeeBee employee : employees) {
             if (employee.statut != 3) { // Si au moins une employée n'est pas rentrée
@@ -205,22 +259,23 @@ public class Panel extends JPanel {
         }
 
         if (allEmployeesCollected) {
-            for (ObserverBee observer : observe) {
+            for (ObservatriceBee observer : observe) {
                 for (EmployeeBee employee : employees) {
                     // Les observatrices se dirigent vers les positions posXMax et posYMax de chaque employée
-                    if(observer.visitedSources.size()>=3) {
+                    if(observer.visiteeSources.size()>=3) {
                         return;
                     }
-                    if (observer.statut != 1 && observer.statut != 4) {
+                    if (observer.statut != 1 && observer.statut != 4 && employee.prise!=1) {
                         observer.moveTo(employee.posXMax, employee.posYMax);
                         observer.posXMax=employee.posXMax;
                         observer.posYMax=employee.posYMax;
                         observer.statut=4;
+                        employee.prise=1;
                     }
                 }
             }
             // Mettre à jour le statut de l'observatrice à 0
-            for (ObserverBee observer : observe) {
+            for (ObservatriceBee observer : observe) {
                 observer.statut = 0;
             }
         }
@@ -239,7 +294,7 @@ public class Panel extends JPanel {
             int flowerIndex = determineFlowerIndex(foodX, foodY); // Déterminer l'index de la fleur en fonction de sa position
             g.drawImage(img2[flowerIndex], foodX, foodY, null); // Dessiner la fleur avec son sprite spécifique
             //Affichage de la qualité
-            qualityText = "Qualité: " + foodSource.getQuality();
+            qualityText = "Qualité: " + foodSource.getQualite();
             g.setColor(Color.darkGray);
             g.drawString(qualityText, foodX, foodY - 10); // Afficher la qualité au-dessus de la source de nourriture
             statutText = "Statut: " + foodSource.getStatut();
@@ -250,46 +305,39 @@ public class Panel extends JPanel {
 
 
         for (Bee bee : bees) {
-            if (bee instanceof ScoutBee)
+            if (bee instanceof EclaireuseBee)
                 subImg = img.getSubimage(0*26,0*32,26,32);
-            if (bee instanceof ObserverBee)
-                subImg = img1.getSubimage(0*26,0*32,26,32);
-            if (bee instanceof EmployeeBee)
+            if (bee instanceof ObservatriceBee)
                 subImg = img3.getSubimage(0*26,0*32,26,32);
+            if (bee instanceof EmployeeBee)
+                subImg = img1.getSubimage(0*26,0*32,26,32);
 
-
-                bee.paint(g); // Dessine chaque abeille
-
-
-
-            // if (bee instanceof EmployeeBee)
-
+               bee.paint(g); // Dessine chaque abeille
+          // if (bee instanceof EmployeeBee)
             g.drawImage(subImg,(int)bee.posX,(int)bee.posY,null);
         }
         updateBees(); // Met à jour la position des abeilles
-
-
     }
     private int determineFlowerIndex(int posX, int posY) {
 
-        int flowerWidth = 32;
-        int flowerHeight = 32;
+        int fleurLargeur = 32;
+        int fleurTaille = 32;
 
         // Nombre de colonnes dans la grille
         int numCols = 1280 / 600; // 1280 est la largeur du panel
 
         // Calculez l'indice de la colonne
-        int colIndex = posX / flowerWidth;
+        int colIndex = posX / fleurLargeur;
 
         // Calculez l'indice de la ligne
-        int rowIndex = posY / flowerHeight;
+        int ligneIndex = posY / fleurTaille;
 
         // Calculez l'index de la fleur dans le tableau img2
-        int flowerIndex = rowIndex * numCols + colIndex;
+        int fleurIndex = ligneIndex * numCols + colIndex;
 
         // Assurez-vous que l'index calculé est dans les limites du tableau img2
-        if (flowerIndex >= 0 && flowerIndex < img2.length) {
-            return flowerIndex;
+        if (fleurIndex >= 0 && fleurIndex < img2.length) {
+            return fleurIndex;
         } else {
             // Si l'index est en dehors des limites du tableau, retournez un indice par défaut
             return 0; // Ou tout autre indice par défaut selon votre besoin

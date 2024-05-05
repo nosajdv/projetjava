@@ -6,7 +6,7 @@ import main.Panel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
+//Pas utiliser dans ce projet
 public class Mouse implements MouseListener, MouseMotionListener {
     private Panel p;
 

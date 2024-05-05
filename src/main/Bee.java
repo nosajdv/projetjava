@@ -15,14 +15,14 @@ abstract class Bee extends JPanel {
     protected float posDX = 2.5f, posDY = 2.5f;
     public int statut=0;
     protected long explorationStartTime; // Temps de début de l'exploration
-    protected List<SourceFood> visitedSources = new ArrayList<>();
+    protected List<SourceFood> visiteeSources = new ArrayList<>();
     protected List<SourceFood> visitedSourcesEm = new ArrayList<>();
     protected List<SourceFood> visitedSourcesEc = new ArrayList<>();
     int temp;
 
 
     public void addVisitedSource(SourceFood source) {
-        visitedSources.add(source);
+        visiteeSources.add(source);
     }
 
     public Bee(String type, int posX, int posY) {
@@ -93,7 +93,7 @@ abstract class Bee extends JPanel {
         if (dy != ddy) {
             posY += Math.signum(dy); // Ajouter ou soustraire 1 à la position Y en fonction de la direction
         }
-
+        if(statut==5&&(posX==posXMax&&posY==posYMax))statut=3;
     }
 
 
@@ -107,8 +107,8 @@ abstract class Bee extends JPanel {
 
     // Méthode pour mettre à jour le mouvement de l'abeille
     protected void updateBee() {
-        for (SourceFood source : visitedSources) {
-            long test =System.currentTimeMillis() - source.lastExplorationTime;
+        for (SourceFood source : visiteeSources) {
+            long test =System.currentTimeMillis() - source.ExplorationTmps;
             //System.out.println(test);
             if(test<2000){
                 return;
