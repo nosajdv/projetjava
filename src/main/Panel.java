@@ -12,100 +12,109 @@ import java.io.IOException;
 import java.util.List;
 
 public class Panel extends JPanel {
-    private BufferedImage img,img1,img3, subImg; // toutes les images
-    private List<Bee> bees; // Liste des abeilles
-    private List<SourceNourriutre> sourceNourriutres; // Source de nourriture
-    private BufferedImage[] img2; //liste de fleurs
-    private BufferedImage backgroundImage; // fond
-    private Mouse souris; // suivre le mouvement de la souris (pas utiliser dans ce projet)
-    String qualiteText; // affichage qualité
-    String statutText; // affichage statut
+    private BufferedImage img, img1, img3, subImg;
+    private List<Bee> bees;
+    private List<SourceNourriutre> sourceNourriutres;
+    private BufferedImage[] img2;
+    private BufferedImage backgroundImage;
+    private Mouse souris;
+    String qualiteText;
+    String statutText;
     private BufferedImage rucheImage;
-    int phase=0;
+    int phase = 0;
     int fin;
-
 
     public Panel() {
         souris = new Mouse(this);
-        importRucheImage();
-        importBackgroundImage();
-        importImg();
-        importImg2();
-        importImg3();
-        importFleur();
+        chargerToutesLesImages();
         bees = new ArrayList<>();
-        sourceNourriutres = SourceNourriutre.generateRandomFoodSources(50, 1280, 600); // Générer 10 sources de nourriture
+        sourceNourriutres = SourceNourriutre.generateRandomFoodSources(50, 1280, 600);
         initBees(15, 10, 5);
         setPanelSize();
         addKeyListener(new Clavier());
         addMouseListener(souris);
         addMouseMotionListener(souris);
     }
-    //Image de la ruche
-    private void importRucheImage() {
-        try {
-            InputStream is = getClass().getResourceAsStream("/Ruchev2.png");
-            rucheImage = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    /**
+     * Charge toutes les images nécessaires pour l'application
+     */
+    private void chargerToutesLesImages() {
+        rucheImage = chargerImage("/res/Ruchev2.png");
+        backgroundImage = chargerImage("/res/backgroundV4.png");
+        img = chargerImage("/res/bee_spritesheetv2.png");
+        img1 = chargerImage("/res/beeV2.png");
+        img3 = chargerImage("/res/beeV3.png");
+        img2 = chargerFleurs("/res/flowerv2.png");
     }
-    //Image du fond
-    private void importBackgroundImage() {
-        InputStream is = getClass().getResourceAsStream("/backgroundV4.png");
-        try {
-            backgroundImage = ImageIO.read(is);
+
+    /**
+     * Méthode générique pour charger une image depuis les ressources
+     * @param chemin Le chemin relatif de l'image dans le dossier res
+     * @return L'image chargée ou une image vide si échec
+     */
+    private BufferedImage chargerImage(String chemin) {
+        try (InputStream is = getClass().getResourceAsStream(chemin)) {
+            if (is == null) {
+                throw new IOException("Ressource introuvable: " + chemin);
+            }
+            BufferedImage image = ImageIO.read(is);
+            if (image == null) {
+                throw new IOException("Échec du chargement de l'image: " + chemin);
+            }
+            return image;
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-   // image abeille (sans animation)
-    private void importImg() {
-        InputStream is = getClass().getResourceAsStream("/bee_spritesheetv2.png");
-        try {
-            img = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-  //IMAGE Observatrice
-    private void importImg2() {
-        InputStream is = getClass().getResourceAsStream("/beeV2.png");
-        try {
-            img1 = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    //IMAGE Employee
-    private void importImg3() {
-        InputStream is = getClass().getResourceAsStream("/beeV3.png");
-        try {
-            img3 = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
+            // Crée une image vide comme solution de repli
+            System.err.println("Utilisation d'une image vide pour: " + chemin);
+            return new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
         }
     }
 
-    private void importFleur() {
-        img2 = new BufferedImage[83]; // Nombre total de fleurs dans votre fichier d'image
-        try {
-            InputStream is = getClass().getResourceAsStream("/flowerv2.png");
-            BufferedImage flowerSheet = ImageIO.read(is);
-            int fleurWidth = 32; // Largeur d'une fleur dans votre fichier
-            int fleurHeight = 32; // Hauteur d'une fleur dans votre fichier
-            int rows = flowerSheet.getHeight() / fleurHeight;
-            int cols = flowerSheet.getWidth() / fleurWidth;
+    /**
+     * Charge la feuille de sprites des fleurs et la découpe
+     * @param chemin Chemin vers l'image contenant toutes les fleurs
+     * @return Tableau d'images de fleurs
+     */
+    private BufferedImage[] chargerFleurs(String chemin) {
+        BufferedImage[] fleurs = new BufferedImage[83];
+        try (InputStream is = getClass().getResourceAsStream(chemin)) {
+            if (is == null) {
+                throw new IOException("Ressource introuvable: " + chemin);
+            }
+            
+            BufferedImage feuilleFleurs = ImageIO.read(is);
+            if (feuilleFleurs == null) {
+                throw new IOException("Échec du chargement de la feuille de fleurs: " + chemin);
+            }
+
+            int largeurFleur = 32;
+            int hauteurFleur = 32;
+            int lignes = feuilleFleurs.getHeight() / hauteurFleur;
+            int colonnes = feuilleFleurs.getWidth() / largeurFleur;
             int index = 0;
-            for (int i = 0; i < rows -1; i++) {
-                for (int j = 0; j < cols -1; j++) {
-                    img2[index] = flowerSheet.getSubimage(j * fleurWidth, i * fleurHeight, fleurWidth, fleurHeight);
-                    index++;
+            
+            for (int i = 0; i < lignes - 1; i++) {
+                for (int j = 0; j < colonnes - 1; j++) {
+                    if (index < fleurs.length) {
+                        fleurs[index] = feuilleFleurs.getSubimage(
+                            j * largeurFleur, 
+                            i * hauteurFleur, 
+                            largeurFleur, 
+                            hauteurFleur
+                        );
+                        index++;
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+            // Initialise avec des images vides comme solution de repli
+            for (int i = 0; i < fleurs.length; i++) {
+                fleurs[i] = new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB);
+            }
         }
+        return fleurs;
     }
 
 
